@@ -1,0 +1,8 @@
+fastf1
+pygame
+requests
+pandas
+numpy
+imageio
+pygithub
+python-dotenv
