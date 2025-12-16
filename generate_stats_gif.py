@@ -45,8 +45,13 @@ def main():
     
     # 4. Initialize Cars
     cars = []
-    # Limit to top 20 like main.py
-    grid_data = repos_stats[:20]
+    
+    # Sort by total_commits desc to get the fastest repos
+    sorted_repos = sorted(repos_stats, key=lambda x: x['total_commits'], reverse=True)
+    # Limit to top 10
+    grid_data = sorted_repos[:10]
+    
+    print(f"Race Grid: {len(grid_data)} cars.")
     
     for i, repo in enumerate(grid_data):
         car = Car(repo, track_len, i)
@@ -57,8 +62,19 @@ def main():
     vis = Visualizer(track_coords)
     
     # 6. Run Simulation for GIF
-    frames_to_capture = 180 # ~6 seconds
-    print(f"Simulating {frames_to_capture} frames...")
+    # Calculate duration based on the slowest car (last in grid) to complete 1 lap
+    # Speed formula in Car: 0.5 + (commits * 0.0005)
+    slowest_car = cars[-1]
+    # Time = Distance / Speed
+    required_frames = int(track_len / slowest_car.speed)
+    
+    # Add buffer (e.g., 2 seconds) to show the finish line crossing clearly
+    buffer_frames = 60 
+    frames_to_capture = required_frames + buffer_frames
+    
+    print(f"Slowest Car: {slowest_car.name} (Speed: {slowest_car.speed:.4f})")
+    print(f"Track Length: {track_len}")
+    print(f"Simulating {frames_to_capture} frames (~{frames_to_capture/config.FPS:.1f}s) for 1 full lap.")
     
     for frame in range(frames_to_capture):
         # Update Cars
