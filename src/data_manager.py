@@ -1,5 +1,7 @@
 from github import Github, Auth
 import config
+import time
+from datetime import datetime, timedelta
 
 def verify_connection():
     """Verifica si el token es válido conectando con GitHub."""
@@ -24,27 +26,34 @@ def get_repository_stats():
     
     repos = user.get_repos(sort="updated", direction="desc")
     
+    one_year_ago = datetime.now() - timedelta(days=365)
+    
     for repo in repos:
+        total_commits = 0
         try:
-             participation = repo.get_stats_participation()
-             weekly_commits = participation.owner if participation else [0]*52
-        except Exception:
-             weekly_commits = [0]*52
+             # METODO LENTO PERO EXACTO: Contar commits uno por uno
+             # get_stats_participation() tiene caché y lag. get_commits() es real-time.
+             commits = repo.get_commits(author=config.GITHUB_USERNAME, since=one_year_ago)
+             total_commits = commits.totalCount
+        except Exception as e:
+             print(f"Warn: Error obteniendo commits reales de {repo.name}: {e}")
+             total_commits = 0
              
         stats = {
             "name": repo.name,
             "stars": repo.stargazers_count,
             "language": repo.language,
             "last_update": repo.updated_at,
-            "weekly_commits": weekly_commits, 
-            "total_commits": sum(weekly_commits)
+            "weekly_commits": [], # Ya no usamos buckets semanales para la velocidad
+            "total_commits": total_commits
         }
         
+        # Solo incluir repos con algo de actividad en el año o muchas estrellas
         if stats["total_commits"] == 0 and stats["stars"] < 5:
              continue
              
         repos_data.append(stats)
-        print(f" -> Encontrado: {repo.name} ({stats['language']}) - Commits año: {stats['total_commits']}")
+        print(f" -> Encontrado: {repo.name} ({stats['language']}) - Commits año (Real-Time): {stats['total_commits']}")
         
         if len(repos_data) >= 20: 
             break
