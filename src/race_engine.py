@@ -1,9 +1,12 @@
+import os
 import fastf1
 import numpy as np
 import pandas as pd
 import config
 
 # Habilitar caché para no descargar datos cada vez
+if not os.path.exists('cache'):
+    os.makedirs('cache')
 fastf1.Cache.enable_cache('cache') 
 
 class RaceEngine:
