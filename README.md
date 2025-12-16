@@ -4,7 +4,7 @@
 
 Este proyecto de Python visualiza tus repositorios como monoplazas de F1 que compiten en un circuito basándose en su actividad (commits). Incluye gráficos de alta calidad, físicas simuladas y eventos dinámicos.
 
-![F1 Stats Demo](https://via.placeholder.com/800x400?text=F1+GitHub+Stats+Demo)
+![F1 Stats Demo](f1_stats.gif)
 
 ## ✨ Características Principales
 
