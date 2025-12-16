@@ -187,8 +187,17 @@ class Visualizer:
             self.events.pop(0) # Eliminar el más viejo
 
     def save_gif(self):
-        # No guardamos GIF en modo infinito por defecto, pero dejamos la función
-        pass
+        if not self.frames:
+            print("No frames to save.")
+            return
+            
+        print(f"Saving GIF ({len(self.frames)} frames)... this might take a moment.")
+        try:
+            # Save as looping GIF
+            imageio.mimsave(config.OUTPUT_GIF_NAME, self.frames, fps=config.FPS, loop=0)
+            print(f"GIF saved to {config.OUTPUT_GIF_NAME}")
+        except Exception as e:
+            print(f"Error saving GIF: {e}")
         
     def close(self):
         pygame.quit()

@@ -1,8 +1,8 @@
 import config
-import data_manager
-import race_engine
-from car import Car
-from visualizer import Visualizer
+from src import data_manager
+from src import race_engine
+from src.car import Car
+from src.visualizer import Visualizer
 import sys
 import pygame
 import random

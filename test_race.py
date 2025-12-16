@@ -1,9 +1,9 @@
+import config
 import pygame
 import random
-import config
-from visualizer import Visualizer
-from race_engine import RaceEngine
-from car import Car
+from src.visualizer import Visualizer
+from src.race_engine import RaceEngine
+from src.car import Car
 
 # Mock para simular objeto Repository de PyGithub
 class MockRepo:

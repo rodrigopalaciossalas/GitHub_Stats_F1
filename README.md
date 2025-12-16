@@ -1,82 +1,86 @@
-# 🏎️ F1 GitHub Stats Racer
+# 🏎️ GitHub Stats F1 Racer
 
-**Visualize your GitHub Repository Activity as a Live F1 Race!**
+**¡Transforma la actividad de tus repositorios de GitHub en una emocionante carrera de Fórmula 1!**
 
-This Python project turns your GitHub repositories into F1 cars that race against each other based on commit activity.
-It features **High-Quality Visuals** (4x Anti-Aliasing), **Live Leaderboards**, and **Interactive Events**.
+Este proyecto de Python visualiza tus repositorios como monoplazas de F1 que compiten en un circuito basándose en su actividad (commits). Incluye gráficos de alta calidad, físicas simuladas y eventos dinámicos.
 
-![Demo](https://via.placeholder.com/800x400?text=F1+GitHub+Stats+Demo)
+![F1 Stats Demo](https://via.placeholder.com/800x400?text=F1+GitHub+Stats+Demo)
 
-## 🚀 Features
+## ✨ Características Principales
 
-*   **Live Racing**: Cars move based on real repository commit counts (`main.py`) or mock data (`test_race.py`).
-*   **Premium Visuals**:
-    *   **SSAA (SuperSampling Anti-Aliasing)**: Tracks are rendered at 4K resolution and smooth-scaled for perfect edges.
-    *   **Smart Animations**: Smooth leaderboard reordering and car movement interpolation.
-    *   **Particle Systems**: Smoke and fire effects for retired cars.
-*   **Dynamic Events**:
-    *   Overtakes are logged in a scrolling "Race Control" feed.
-    *   **Manual Safety Car / Crash**: Trigger interactive retirements manually (Test Mode only).
+*   **🏁 Carreras en Tiempo Real**: Los coches avanzan basándose en los datos reales de commits extraídos de la API de GitHub.
+*   **🎨 Visuales Premium (SSAA)**: Motor de renderizado con SuperSampling Anti-Aliasing (4x) para bordes suaves y gráficos nítidos en 4K reescalados.
+*   **🔥 Sistema de Partículas**: Efectos visuales avanzados como humo y fuego cuando los coches sufren "fallos de motor" o se retiran.
+*   **📊 Leaderboard Dinámico**: Tabla de clasificación en vivo que detecta adelantamientos y reagrupa las posiciones suavemente.
+*   **🏎️ Modo Simulación**: Un modo de prueba (`test_race.py`) para experimentar con las físicas y causar caos manual sin necesidad de conexión a internet.
 
-## 🛠️ Installation
+## 🛠️ Requisitos e Instalación
 
-1.  **Clone the repo**:
-    ```bash
-    git clone https://github.com/yourusername/GitHub_Stats_F1.git
-    cd GitHub_Stats_F1
-    ```
+Asegúrate de tener **Python 3.8+** instalado.
 
-2.  **Install Dependencies**:
-    The project relies on `pygame` for visualization and `PyGithub` for data fetching.
-    ```bash
-    pip install pygame PyGithub numpy imageio
-    ```
-
-3.  **Configuration**:
-    Create a `.env` file or export environment variables for your GitHub credentials (optional for Test Mode):
-    ```bash
-    export GITHUB_TOKEN="your_token_here"
-    export GITHUB_USERNAME="your_username"
-    ```
-
-## 🏁 Usage
-
-### 1. Test Mode (No API Required)
-
-Run a simulated race with mock data to test visuals and controls:
-
+### 1. Clonar el repositorio
 ```bash
-python test_race.py
+git clone https://github.com/tu-usuario/GitHub_Stats_F1.git
+cd GitHub_Stats_F1
 ```
 
-*   **Controls**:
-    *   `ENTER`: Trigger a **Crash/Engine Failure** for the last place car (Smoke & Fire effect!).
-    *   `SPACE`: Trigger a random "Chaos" event (stats shuffle).
+### 2. Crear entorno virtual (Recomendado)
+```bash
+python -m venv .venv
+# En Windows:
+.venv\Scripts\activate
+# En Mac/Linux:
+source .venv/bin/activate
+```
 
-### 2. Live Mode (Real GitHub Data)
+### 3. Instalar dependencias
+El proyecto utiliza `pygame` para los gráficos y `PyGithub` para la API.
+```bash
+pip install -r requirements.txt
+```
 
-Visualize your actual GitHub repositories:
+## ⚙️ Configuración
 
+Para visualizar tus propios repositorios, necesitas configurar tus credenciales de GitHub.
+
+1.  Crea un archivo `.env` en la raíz del proyecto (puedes usar `.env.example` como base).
+2.  Agrega tu token y usuario:
+    ```ini
+    GITHUB_TOKEN=tu_token_personal_de_github
+    GITHUB_USERNAME=tu_nombre_de_usuario
+    ```
+    > 💡 **Nota**: Puedes obtener un token en [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens).
+
+## 🚀 Uso
+
+### Modo en Vivo (Datos Reales)
+Visualiza tus repositorios actuales compitiendo:
 ```bash
 python main.py
 ```
+*   Carga tus repositorios más activos.
+*   Genera un circuito aleatorio.
+*   La velocidad de cada coche depende del número total de commits.
 
-*   The script fetches your top repositories.
-*   Speeds are calculated based on `total_commits`.
-*   The race runs continuously on a random F1 circuit generated at startup.
+### Modo de Prueba (Simulación)
+Prueba los gráficos y controles manuales con datos falsos:
+```bash
+python test_race.py
+```
+**Controles en Modo Prueba:**
+*   `ESPACIO`: **Evento de Caos** (Reordenamiento aleatorio de posiciones).
+*   `ENTER`: **Fallo de Motor** (Provoca humo/fuego en el último coche y lo retira temporalmente).
 
-## 🎨 Customization
+## 📂 Estructura del Proyecto
 
-*   **Circuits**: The system randomly selects simplified layouts of famous tracks (Monaco, Spa, Silverstone, etc.).
-*   **Teams**: Colors are automatically assigned to repositories to mimic F1 teams (Red, Teal, Navy, Orange, etc.).
-
-## 📂 Project Structure
-
-*   `main.py`: Entry point for real data mode.
-*   `test_race.py`: Entry point for mock simulation mode.
-*   `visualizer.py`: Core rendering engine (SSAA, Particles, UI).
-*   `race_engine.py`: Logic for track generation (~Math related).
-*   `car.py`: Car object logic and physics.
+*   `main.py`: Punto de entrada principal para la aplicación conectada a la API.
+*   `test_race.py`: Script de prueba para desarrollo y debug visual.
+*   `config.py`: Configuraciones globales (Resolución, FPS, Año, Circuito predeterminado).
+*   `src/`:
+    *   `visualizer.py`: Motor gráfico (Pygame, renderizado, UI).
+    *   `car.py`: Lógica de los vehículos y físicas.
+    *   `race_engine.py`: Generación de circuitos y cálculos de carrera.
+    *   `data_manager.py`: Conexión con la API de GitHub.
 
 ---
-*Created with Python & Pygame for F1 Fans.* 🏎️💨
+Hecho con 🐍 Python y 🏎️ Pasión por la F1.
