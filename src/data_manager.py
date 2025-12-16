@@ -6,8 +6,10 @@ def verify_connection():
     try:
         auth = Auth.Token(config.GITHUB_TOKEN)
         g = Github(auth=auth)
-        user = g.get_user()
-        print(f"Conexión exitosa! Autenticado como: {user.login}")
+        # En CI/CD con GITHUB_TOKEN, 'get_user()' sin argumentos (whoami) falla con 403.
+        # En su lugar, verificamos acceso obteniendo el usuario objetivo.
+        user = g.get_user(config.GITHUB_USERNAME)
+        print(f"Conexión exitosa! Obteniendo datos de: {user.login}")
         return True
     except Exception as e:
         print(f"Error de conexión: {e}")
