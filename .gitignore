@@ -39,5 +39,4 @@ ENV/
 .vscode/
 
 # Project Specific
-f1_stats.gif
 *.log
