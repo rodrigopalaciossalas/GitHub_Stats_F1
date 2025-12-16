@@ -51,4 +51,5 @@ jobs:
           git add f1_stats.gif
           # Solo commit si hubo cambios
           git commit -m "Auto-update F1 Stats GIF" || echo "No stats changes to commit"
+          git pull --rebase
           git push
