@@ -59,7 +59,7 @@ def main():
         c.speed = 2.0 + (c.total_stats_commits * 0.005) 
         cars.append(c)
         
-    vis = Visualizer(track_coords)
+    vis = Visualizer(track_coords, engine.circuit_name)
     
     running = True
     frame_count = 0

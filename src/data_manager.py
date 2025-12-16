@@ -6,8 +6,6 @@ def verify_connection():
     try:
         auth = Auth.Token(config.GITHUB_TOKEN)
         g = Github(auth=auth)
-        # En CI/CD con GITHUB_TOKEN, 'get_user()' sin argumentos (whoami) falla con 403.
-        # En su lugar, verificamos acceso obteniendo el usuario objetivo.
         user = g.get_user(config.GITHUB_USERNAME)
         print(f"Conexión exitosa! Obteniendo datos de: {user.login}")
         return True
@@ -24,15 +22,11 @@ def get_repository_stats():
     print(f"Descargando repositorios de {config.GITHUB_USERNAME}...")
     repos_data = []
     
-    # Ordenar por fecha de actualización para coger los más activos "Coches líderes"
     repos = user.get_repos(sort="updated", direction="desc")
     
     for repo in repos:
-        # Obtener stats de participación semanal (último año)
         try:
              participation = repo.get_stats_participation()
-             # 'owner' son los commits del dueño, 'all' de todos. Usamos del dueño.
-             # get_stats_participation a veces devuelve None si github está calculando
              weekly_commits = participation.owner if participation else [0]*52
         except Exception:
              weekly_commits = [0]*52
@@ -46,7 +40,6 @@ def get_repository_stats():
             "total_commits": sum(weekly_commits)
         }
         
-        # Solo incluir repos con algo de actividad en el año o muchas estrellas
         if stats["total_commits"] == 0 and stats["stars"] < 5:
              continue
              
